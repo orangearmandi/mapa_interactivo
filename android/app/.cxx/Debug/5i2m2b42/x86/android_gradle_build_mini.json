@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/opt/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/orange/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/orange/Escritorio/mapa_interactivo/android/app/.cxx/Debug/5i2m2b42/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/orange/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/orange/Escritorio/mapa_interactivo/android/app/.cxx/Debug/5i2m2b42/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

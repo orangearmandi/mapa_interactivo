@@ -1,0 +1,2 @@
+/home/orange/Escritorio/mapa_interactivo/android/app/.cxx/Debug/5i2m2b42/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/orange/Escritorio/mapa_interactivo/android/app/.cxx/Debug/5i2m2b42/armeabi-v7a/CMakeFiles/rebuild_cache.dir
