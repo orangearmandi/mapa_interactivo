@@ -3,7 +3,7 @@
 Mapa interactivo, agregar marcadores con informacion y busqueda de ubicaciones
 
 ![https://raw.githubusercontent.com/rrousselGit/riverpod/refs/heads/master/resources/icon/Facebook%20Cover%20A.png](https://raw.githubusercontent.com/rrousselGit/riverpod/refs/heads/master/resources/icon/Facebook%20Cover%20A.png)
-
+![https://raw.githubusercontent.com/IO-Design-Team/hive_ce/master/.github/logo_transparent.svg?sanitize=true](https://raw.githubusercontent.com/IO-Design-Team/hive_ce/master/.github/logo_transparent.svg?sanitize=true)
 ## Requisitos previos
 
 - Flutter SDK
