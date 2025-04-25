@@ -2,7 +2,7 @@
 
 Mapa interactivo, agregar marcadores con informacion y busqueda de ubicaciones
 
-![https://raw.githubusercontent.com/rrousselGit/riverpod/refs/heads/master/resources/icon/Facebook%20Cover%20A.png]
+![https://raw.githubusercontent.com/rrousselGit/riverpod/refs/heads/master/resources/icon/Facebook%20Cover%20A.png](https://raw.githubusercontent.com/rrousselGit/riverpod/refs/heads/master/resources/icon/Facebook%20Cover%20A.png)
 
 ## Requisitos previos
 
