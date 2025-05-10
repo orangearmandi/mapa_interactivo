@@ -10,12 +10,14 @@ import '../widgets/markers_list.dart';
 import '../../data/models/marker_model.dart';
 import '../providers/markers_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter/gestures.dart';
 
 class InteractiveMapScreen extends ConsumerStatefulWidget {
   const InteractiveMapScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<InteractiveMapScreen> createState() => _InteractiveMapScreenState();
+  ConsumerState<InteractiveMapScreen> createState() =>
+      _InteractiveMapScreenState();
 }
 
 class _InteractiveMapScreenState extends ConsumerState<InteractiveMapScreen> {
@@ -27,12 +29,9 @@ class _InteractiveMapScreenState extends ConsumerState<InteractiveMapScreen> {
     super.initState();
     _markers = [];
     // Escuchar cambios en los marcadores
-    ref.listenManual(
-        markersProvider,
-            (previous, next) {
-          _updateMarkers();
-        }
-    );
+    ref.listenManual(markersProvider, (previous, next) {
+      _updateMarkers();
+    });
   }
 
   void _updateMarkers() {
@@ -43,25 +42,27 @@ class _InteractiveMapScreenState extends ConsumerState<InteractiveMapScreen> {
   }
 
   List<Marker> _buildMarkers(List<CustomMarker> customMarkers) {
-    return customMarkers.map((marker) => Marker(
-      point: LatLng(marker.latitude, marker.longitude),
-      width: 40,
-      height: 40,
-      child: CustomMarkerIcon(
-        marker: marker,
-        onTap: () => _handleMarkerTap(marker),
-      ),
-    )).toList();
+    return customMarkers
+        .map((marker) => Marker(
+              point: LatLng(marker.latitude, marker.longitude),
+              width: 40,
+              height: 40,
+              child: CustomMarkerIcon(
+                marker: marker,
+                onTap: () => _handleMarkerTap(marker),
+              ),
+            ))
+        .toList();
   }
 
+  @override
   void _handleMarkerTap(CustomMarker marker) {
     _mapController.move(
-        LatLng(marker.latitude, marker.longitude),
-        MapConstants.defaultZoom
-    );
+        LatLng(marker.latitude, marker.longitude), MapConstants.defaultZoom);
   }
 
-  Future<void> _handleLongPress(TapPosition tapPosition, LatLng position) async {
+  Future<void> _handleLongPress(
+      TapPosition tapPosition, LatLng position) async {
     try {
       final name = await showAddMarkerDialog(context);
       if (name != null && name.isNotEmpty) {
@@ -92,9 +93,8 @@ class _InteractiveMapScreenState extends ConsumerState<InteractiveMapScreen> {
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message))
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -119,8 +119,15 @@ class _InteractiveMapScreenState extends ConsumerState<InteractiveMapScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
         onPressed: _showMarkersList,
-        child: const Icon(Icons.list,color:Colors.blue,),
+        tooltip: 'Lista de Marcadores',
+        materialTapTargetSize: MaterialTapTargetSize.padded,
+        child: const Icon(
+          size: 30,
+          Icons.list,
+          color: Colors.blue,
+        ),
       ),
     );
   }
@@ -132,7 +139,9 @@ class _InteractiveMapScreenState extends ConsumerState<InteractiveMapScreen> {
         child: Image.asset('assets/logo.png'),
       ),
       centerTitle: true,
-      title: const Text('Mapa Interactivo'),
+      title: const Text('Mapa Interactivo',
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue)),
     );
   }
 

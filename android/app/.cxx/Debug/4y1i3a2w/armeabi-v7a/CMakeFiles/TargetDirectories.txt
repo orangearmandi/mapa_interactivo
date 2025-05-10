@@ -1,0 +1,2 @@
+/home/orange/Escritorio/proyectos flutter/mapa_interactivo/android/app/.cxx/Debug/4y1i3a2w/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/orange/Escritorio/proyectos flutter/mapa_interactivo/android/app/.cxx/Debug/4y1i3a2w/armeabi-v7a/CMakeFiles/rebuild_cache.dir

@@ -6,7 +6,7 @@ import 'data/models/marker_model.dart';
 import 'presentation/screens/interactive_map.dart';
 
 void main() async {
-  // Inicializar Hive
+  // Inicializar Hivec
   await Hive.initFlutter();
 
   // Registrar el adaptador de marcadores

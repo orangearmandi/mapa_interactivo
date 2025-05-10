@@ -6,19 +6,32 @@ Future<String?> showAddMarkerDialog(BuildContext context) async {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Agregar Marcador'),
+        title: const Text('Agregar Marcador',
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue)),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(hintText: 'Nombre del marcador'),
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(), hintText: 'Nombre del marcador'),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, null),
-            child: const Text('Cancelar'),
+            child: Column(
+              children: const [
+                Icon(Icons.cancel, color: Colors.red),
+                Text('Cancelar'),
+              ],
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, controller.text.trim()),
-            child: const Text('Guardar'),
+            child: Column(
+              children: const [
+                Icon(Icons.check, color: Colors.green),
+                Text('Agregar'),
+              ],
+            ),
           ),
         ],
       );

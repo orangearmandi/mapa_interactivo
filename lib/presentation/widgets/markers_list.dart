@@ -6,6 +6,9 @@ import 'delete_marker.dart';
 import 'edit_marker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'dart:html' as html;
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 
 void showMarkersListBottomSheet({
   required BuildContext context,
@@ -22,15 +25,29 @@ void showMarkersListBottomSheet({
   );
 }
 
+Future<void> saveKmlFileWeb(String kmlContent) async {
+  final bytes = utf8.encode(kmlContent);
+  final blob = html.Blob([bytes], 'application/vnd.google-earth.kml+xml');
+  final url = html.Url.createObjectUrlFromBlob(blob);
 
-Future<void> saveKmlFile(String kmlContent) async {
-  final downloadsDir = Directory('/storage/emulated/0/Download');
-  final path = '${downloadsDir.path}/marcadores.kml';
-  final file = File(path);
-  await file.writeAsString(kmlContent);
-  print('KML guardado en: $path');
+  final anchor = html.AnchorElement(href: url)
+    ..setAttribute('download', 'marcadores.kml')
+    ..click();
+
+  html.Url.revokeObjectUrl(url);
 }
 
+Future<void> saveKmlFile(String kmlContent) async {
+  if (kIsWeb) {
+    await saveKmlFileWeb(kmlContent);
+  } else {
+    final downloadsDir = Directory('/storage/emulated/0/Download');
+    final path = '${downloadsDir.path}/marcadores.kml';
+    final file = File(path);
+    await file.writeAsString(kmlContent);
+    print('KML guardado en: $path');
+  }
+}
 
 String generateKmlFromCustomMarkers(List<CustomMarker> markers) {
   final buffer = StringBuffer();
@@ -65,8 +82,8 @@ class MarkersListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final markers = ref.watch(markersProvider);
-
     return Container(
+      width: double.infinity * 0.2,
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,11 +95,16 @@ class MarkersListView extends ConsumerWidget {
               const Text(
                 'Marcadores Guardados',
                 style: TextStyle(
+                  color: Colors.blue,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.red),
+                ),
                 onPressed: () async {
                   try {
                     final kmlContent = generateKmlFromCustomMarkers(markers);
@@ -103,10 +125,16 @@ class MarkersListView extends ConsumerWidget {
                 child: const Text(
                   'KML',
                   style: TextStyle(
+                    color: Colors.red,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.help),
+                color: Colors.green,
+                onPressed: () => {ShowHelp(context)},
               ),
             ],
           ),
@@ -122,19 +150,21 @@ class MarkersListView extends ConsumerWidget {
                   title: Text(marker.name),
                   subtitle: Text(
                     'Lat: ${marker.latitude.toStringAsFixed(4)}, '
-                        'Lng: ${marker.longitude.toStringAsFixed(4)}',
+                    'Lng: ${marker.longitude.toStringAsFixed(4)}',
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       IconButton(
                         icon: const Icon(Icons.edit),
+                        color: Colors.blue,
                         onPressed: () {
                           showEditMarkerDialog(context, marker);
                         },
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete),
+                        color: Colors.red,
                         onPressed: () {
                           showDeleteMarkerDialog(context, marker);
                         },
@@ -150,4 +180,37 @@ class MarkersListView extends ConsumerWidget {
       ),
     );
   }
+}
+
+Future<void> ShowHelp(BuildContext context) async {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AlertDialog(
+            title: const Text('Ayuda',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue)),
+            content: const Text(
+                'Para agregar un marcador, mantén presionado el mapa 2 segundos. '),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Column(
+                  children: const [
+                    Icon(Icons.cancel, color: Colors.red),
+                    Text('Cerrar'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
 }
